@@ -15,7 +15,11 @@ function getEntryData(entry: AdmZip.IZipEntry): Promise<Buffer> {
 }
 
 export class VersionJar {
-  constructor(private readonly zip: AdmZip) {}
+  private zip: AdmZip;
+
+  constructor(public readonly arrayBuffer: ArrayBuffer) {
+    this.zip = new AdmZip(Buffer.from(arrayBuffer));
+  }
 
   async *getItemTags() {
     const pathPrefix = 'data/minecraft/tags/item/';
