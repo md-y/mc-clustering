@@ -3,6 +3,7 @@ import { Recipe } from './recipe.js';
 import { tagFileSchema } from '../schemas/tag-file.js';
 import { Tag } from './tag.js';
 import { Item } from './item.js';
+import { AdjacencyMatrix } from '../ml/adjacency-matrix.js';
 
 const ENCODING = 'utf-8' as const;
 
@@ -71,6 +72,10 @@ export class VersionJar {
         }
       }
     }
+  }
+
+  public createAdjacencyMatrix(): AdjacencyMatrix {
+    return new AdjacencyMatrix(Array.from(this.items.values()));
   }
 
   private *getItems() {
