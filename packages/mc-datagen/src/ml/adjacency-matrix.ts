@@ -41,9 +41,7 @@ export class AdjacencyMatrix {
 
   private getWeight(item1: Item, item2: Item) {
     const setGroups = [item1, item2].map((item) => {
-      const nameParts = item.id.replaceAll('minecraft:', '').split('_');
-      const nameSet = new Set(nameParts);
-      return [nameSet, item.recipes, item.tags];
+      return [item.nameParts, item.recipes, item.tags];
     });
 
     const weights: number[] = [];

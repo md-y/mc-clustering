@@ -4,6 +4,7 @@ import { tagFileSchema } from '../schemas/tag-file.js';
 import { Tag } from './tag.js';
 import { Item } from './item.js';
 import { AdjacencyMatrix } from '../ml/adjacency-matrix.js';
+import { FeatureData } from '../ml/feature-data.js';
 
 const ENCODING = 'utf-8' as const;
 
@@ -76,6 +77,10 @@ export class VersionJar {
 
   public createAdjacencyMatrix(): AdjacencyMatrix {
     return new AdjacencyMatrix(Array.from(this.items.values()));
+  }
+
+  public createFeatureData(): FeatureData {
+    return new FeatureData(Array.from(this.items.values()));
   }
 
   private *getItems() {
