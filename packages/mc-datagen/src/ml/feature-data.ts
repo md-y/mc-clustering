@@ -56,14 +56,14 @@ export class FeatureData {
 
   private getCSVHeader(features: ItemFeature[]) {
     const header = ['Item'];
+    let recipeCounter = 0;
     for (const feature of features) {
       if (feature instanceof Tag) {
-        header.push(feature.id);
+        header.push(`tag:${feature.id}`);
       } else if (feature instanceof Recipe) {
-        const idx = header.reduce((curr, v) => (v === feature.type ? curr + 1 : curr), 0);
-        header.push(`${feature.type}-${idx}`);
+        header.push(`recipe:${recipeCounter++}`);
       } else {
-        header.push(feature);
+        header.push(`name:${feature}`);
       }
     }
     return header.join(',');
