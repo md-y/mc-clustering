@@ -48,3 +48,6 @@ Thumbs.db
 .cache
 .venv
 __pycache__
+vite.config.*.timestamp*
+
+*.csv
