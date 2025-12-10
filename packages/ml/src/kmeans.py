@@ -18,7 +18,6 @@ def load_kmeans_data(path: str, min_total = 5):
 
 def train_kmeans(data: pd.DataFrame, n: int, epsilon = 5, random_state = 0):
     total = len(data)
-    epsilon = 5
     min_size = total // n - epsilon
     max_size = total // n + epsilon
 

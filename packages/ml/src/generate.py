@@ -1,6 +1,8 @@
 from pathlib import Path
 from kmeans import load_kmeans_data, train_kmeans
 from metis import load_metis_data, train_metis
+from spectral import load_spectral_data, train_spectral
+from wards import load_wards_data, train_wards
 from util import write_assignments
 
 n_range = range(10, 60, 10)
@@ -38,13 +40,27 @@ def generate_metis(csv, ver):
         assignments = train_metis(i, *data)
         write_file(ver, f'metis_{i}.json', assignments)
 
+def generate_spectral(csv, ver):
+    data = load_spectral_data(csv)
+    for i in range(10, 60, 10):
+        _, assignments = train_spectral(data, n = i)
+        write_file(ver, f'spectral_{i}.json', assignments)
+
+def generate_wards(features_csv, matrix_csv, ver):
+    features, matrix = load_wards_data(features_csv, matrix_csv)
+    for i in range(10, 60, 10):
+        _, assignments = train_wards(features, n = i, neighbor_matrix=matrix)
+        write_file(ver, f'wards_{i}.json', assignments)
+
 def generate():
     for ver, paths in get_csv_paths().items():
         features_csv = paths['features']
+        generate_spectral(features_csv, ver)
         generate_kmeans(features_csv, ver)
 
         matrix_csv = paths['matrix']
         generate_metis(matrix_csv, ver)
+        generate_wards(features_csv, matrix_csv, ver)
 
 if __name__ == '__main__':
     generate()
