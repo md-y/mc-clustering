@@ -26,11 +26,11 @@
           "watchDepsName": "watch-deps"
         }
       },
-      "exclude": ["packages/mc-datagen/*"]
+      "exclude": ["packages/mc-datagen/*", "packages/ml/src/packages/carpet-script/*", "packages/carpet-script/*"]
     },
     {
       "plugin": "@nx/js/typescript",
-      "include": ["packages/mc-datagen/*"],
+      "include": ["packages/mc-datagen/*", "packages/ml/src/packages/carpet-script/*", "packages/carpet-script/*"],
       "options": {
         "typecheck": {
           "targetName": "typecheck"

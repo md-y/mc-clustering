@@ -1,46 +1,75 @@
 import { versions } from '@mc-clustering/mc-datagen/config';
 import { FC, useEffect, useMemo, useRef, useState } from 'react';
 import { getAssignment, getModels, getNParams } from '../globs/assignments';
-
-type Version = (typeof versions)[number];
+import { generateScript } from '../carpet/script';
 
 const ITEM_SIZE = 64;
 
 const nParams = getNParams();
 const models = getModels();
 
+function fromUrlOrDefault(key: string, def: string, validateArr?: string[]) {
+  const param = new URL(window.location.href).searchParams.get(key);
+  const val = param ?? def;
+  if (!validateArr) return val;
+  if (!validateArr.some((v) => v === def)) def = validateArr[0] ?? def;
+  if (!validateArr.some((v) => v === val)) return def;
+  return val;
+}
+
+function downloadScript(assignment: string[][]) {
+  const script = generateScript(assignment);
+  const blob = new Blob([script], { type: 'text/plain' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'clustering.sc';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+
 export function App() {
-  const [version, setVersion] = useState<Version>(versions[0]);
-  const [n, setN] = useState<number>(nParams[0] ?? 40);
-  const [model, setModel] = useState<string>(models[0] ?? 'kmeans');
+  const [version, setVersion] = useState(() => fromUrlOrDefault('version', '1.21.10', Array.from(versions)));
+  const [n, setN] = useState(() => fromUrlOrDefault('n', '40', nParams.map((n) => `${n}`)));
+  const [model, setModel] = useState(() => fromUrlOrDefault('model', 'kmeans', models));
+
+  const assignment = useMemo(() => getAssignment(version, 'kmeans', n), [version, n]);
 
   return (
     <>
       <div className="bg-slate-600 flex items-center p-4 gap-4">
         <h1 className="text-3xl text-white font-semibold">MC Clustering</h1>
-        <select className="p-1" onChange={(e) => setVersion(e.target.value as Version)}>
+        <select className="p-1" onChange={(e) => setVersion(e.target.value)} value={version}>
           {versions.map((ver) => (
-            <option key={ver} value={ver}>Version {ver}</option>
+            <option key={ver} value={ver}>
+              Version {ver}
+            </option>
           ))}
         </select>
-        <select className="p-1" onChange={(e) => setN(parseInt(e.target.value))}>
+        <select className="p-1" onChange={(e) => setN(e.target.value)} value={n}>
           {nParams.map((n) => (
-            <option key={n} value={n}>n = {n}</option>
+            <option key={n} value={n}>
+              n = {n}
+            </option>
           ))}
         </select>
-        <select className="p-1" onChange={(e) => setModel(e.target.value)}>
+        <select className="p-1" onChange={(e) => setModel(e.target.value)} value={model}>
           {models.map((model) => (
-            <option key={model} value={model}>{model}</option>
+            <option key={model} value={model}>
+              {model}
+            </option>
           ))}
         </select>
+        <button className='p-1 bg-white' onClick={() => downloadScript(assignment)}>Download Carpet Script</button>
       </div>
-      <Assignment version={version} n={n} />
+      <Assignment assignment={assignment} />
     </>
   );
 }
 
-const Assignment: FC<{ version: Version; n: number }> = ({ version, n }) => {
-  const assignment = useMemo(() => getAssignment(version, 'kmeans', n), [version, n]);
+const Assignment: FC<{ assignment: string[][] }> = ({ assignment }) => {
   return (
     <div className="flex flex-wrap p-8 bg-slate-700 gap-4 justify-center">
       {assignment.map((items, idx) => (

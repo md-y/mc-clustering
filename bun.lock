@@ -50,6 +50,10 @@
         "zod": "^4.1.13",
       },
     },
+    "packages/carpet-script": {
+      "name": "@mc-clustering/carpet-script",
+      "version": "0.0.1",
+    },
     "packages/mc-datagen": {
       "name": "@mc-clustering/mc-datagen",
       "version": "0.0.1",
@@ -381,6 +385,8 @@
     "@jridgewell/trace-mapping": ["@jridgewell/trace-mapping@0.3.31", "", { "dependencies": { "@jridgewell/resolve-uri": "^3.1.0", "@jridgewell/sourcemap-codec": "^1.4.14" } }, "sha512-zzNR+SdQSDJzc8joaeP8QQoCQr8NuYx2dIIytl1QeBEZHJ9uW6hebsrYgbz8hJwUQao3TWCMtmfV8Nu1twOLAw=="],
 
     "@juggle/resize-observer": ["@juggle/resize-observer@3.4.0", "", {}, "sha512-dfLbk+PwWvFzSxwk3n5ySL0hfBog779o8h68wK/7/APo/7cgyWp5jcXockbxdk5kFRkbeXWm4Fbi9FrdN381sA=="],
+
+    "@mc-clustering/carpet-script": ["@mc-clustering/carpet-script@workspace:packages/carpet-script"],
 
     "@mc-clustering/mc-datagen": ["@mc-clustering/mc-datagen@workspace:packages/mc-datagen"],
 

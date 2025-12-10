@@ -18,6 +18,10 @@ def get_csv_paths() -> dict[str, dict[str, str]]:
 
     return versions
 
+def write_file(outputDir, ver, filename, assignments):
+    write_assignments(outputDir / ver / filename, assignments)
+    print("Generated", filename)
+
 def generate():
     outputDir = Path(__file__).parent.parent / 'dist'
 
@@ -26,7 +30,7 @@ def generate():
         data = load_kmeans_data(csv)
         for i in range(10, 60, 10):
             model, assignments = train_kmeans(data, n = i)
-            write_assignments(outputDir / ver / f'kmeans_{i}.json', assignments)
+            write_file(outputDir, ver, f'kmeans_{i}.json', assignments)
 
 if __name__ == '__main__':
     generate()
