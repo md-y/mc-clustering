@@ -13,12 +13,18 @@ export class AdjacencyMatrix {
   toCSV() {
     const matrix = this.createAdjacencyMatrix();
     const rows: string[] = [];
+    let weightCount = 0;
     for (const [item1, edges] of matrix) {
       for (const edge of edges) {
         if (edge.weights.reduce((acc, v) => acc + v, 0) === 0) continue;
-        rows.push(`${item1.id}, ${edge.target.id}, ${edge.weights.join(', ')}`);
+        weightCount = Math.max(weightCount, edge.weights.length);
+        rows.push(`${item1.id},${edge.target.id},${edge.weights.join(', ')}`);
       }
     }
+    const featureCols: string[] = [];
+    for (let i = 0; i < weightCount; i++) featureCols.push(`Feature ${i}`);
+    const header = `Item1,Item2,${featureCols.join(',')}`;
+    rows.unshift(header);
     return rows.join('\n');
   }
 

@@ -35,7 +35,7 @@ export function App() {
   const [n, setN] = useState(() => fromUrlOrDefault('n', '40', nParams.map((n) => `${n}`)));
   const [model, setModel] = useState(() => fromUrlOrDefault('model', 'kmeans', models));
 
-  const assignment = useMemo(() => getAssignment(version, 'kmeans', n), [version, n]);
+  const assignment = useMemo(() => getAssignment(version, model, n), [version, n, model]);
 
   return (
     <>

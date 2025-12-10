@@ -14,7 +14,6 @@ async function generateVersion(ver: string) {
   const features = jar.createFeatureData().toCSV();
 
   await Promise.all([
-    jar.writeAllTextures(resolve(ouputDir, 'textures')),
     Bun.write(resolve(ouputDir, 'matrix.csv'), matrix),
     Bun.write(resolve(ouputDir, 'features.csv'), features),
   ]);
