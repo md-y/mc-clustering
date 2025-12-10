@@ -3,7 +3,7 @@
   "compilerOptions": {
     "outDir": "dist",
     "tsBuildInfoFile": "dist/tsconfig.app.tsbuildinfo",
-    "lib": ["dom"],
+    "lib": ["dom", "ESNext"],
     "types": ["node", "@nx/react/typings/cssmodule.d.ts", "@nx/react/typings/image.d.ts", "vite/client"],
     "rootDir": "src",
     "module": "esnext"
@@ -23,5 +23,10 @@
     "eslint.config.cjs",
     "eslint.config.mjs"
   ],
-  "include": ["src/**/*.js", "src/**/*.jsx", "src/**/*.ts", "src/**/*.tsx"]
+  "include": ["src/**/*.js", "src/**/*.jsx", "src/**/*.ts", "src/**/*.tsx"],
+  "references": [
+    {
+      "path": "../mc-datagen/tsconfig.lib.json"
+    }
+  ]
 }

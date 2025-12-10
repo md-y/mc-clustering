@@ -1,6 +1,8 @@
 import pandas as pd
 from k_means_constrained import KMeansConstrained
 
+from util import zip_items
+
 def load_kmeans_data(path: str, min_total = 5):
     df = pd.read_csv(path)
     
@@ -22,12 +24,12 @@ def train_kmeans(data: pd.DataFrame, n: int, epsilon = 5, random_state = 0):
 
     X = data.iloc[:, 1:]
 
-    kmc = KMeansConstrained(n, min_size, max_size, random_state)
+    kmc = KMeansConstrained(n, min_size, max_size, random_state = random_state)
     kmc.fit_predict(X)
 
     items = data.iloc[:, 0]
     labels = kmc.labels_
 
-    assignments = pd.concat({ 'Items': items, 'Group': pd.Series(labels)}, axis=1)
+    assignments = zip_items(items, labels)
 
     return kmc, assignments

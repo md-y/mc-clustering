@@ -7,9 +7,6 @@
       "path": "./packages/mc-datagen"
     },
     {
-      "path": "./apps/my-app"
-    },
-    {
       "path": "./packages/webapp"
     }
   ]

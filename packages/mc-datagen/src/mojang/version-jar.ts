@@ -5,6 +5,8 @@ import { Tag } from './tag.js';
 import { Item } from './item.js';
 import { AdjacencyMatrix } from '../ml/adjacency-matrix.js';
 import { FeatureData } from '../ml/feature-data.js';
+import { resolve } from 'path';
+import Bun from 'bun';
 
 const ENCODING = 'utf-8' as const;
 
@@ -75,6 +77,15 @@ export class VersionJar {
     }
   }
 
+  async writeAllTextures(path: string) {
+    const images = await Array.fromAsync(this.getTextures());
+    await Promise.all(
+      images.map(async (img) => {
+        await Bun.write(resolve(path, img.filename), img.data);
+      })
+    );
+  }
+
   public createAdjacencyMatrix(): AdjacencyMatrix {
     return new AdjacencyMatrix(Array.from(this.items.values()));
   }
@@ -115,6 +126,17 @@ export class VersionJar {
       const buffer = await getEntryData(entry);
       const recipe = new Recipe(buffer.toString(ENCODING));
       yield recipe;
+    }
+  }
+
+  private async *getTextures() {
+    const entries = this.zip.getEntries().filter((entry) => entry.entryName.startsWith('assets/minecraft/textures/block') || entry.entryName.startsWith('assets/minecraft/textures/item'));
+    for (const entry of entries) {
+      const buffer = await getEntryData(entry);
+      yield {
+        data: new Blob([buffer], { type: 'image/png' }),
+        filename: entry.name,
+      };
     }
   }
 }

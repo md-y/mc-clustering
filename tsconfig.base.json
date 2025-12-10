@@ -22,6 +22,11 @@
     "allowJs": true,
     "noUncheckedIndexedAccess": true,
     "noUnusedParameters": false,
-    "noPropertyAccessFromIndexSignature": false
+    "noPropertyAccessFromIndexSignature": false,
+    "baseUrl": ".",
+    "paths": {
+      "@mc-clustering/mc-datagen": ["packages/mc-datagen/dist"],
+      "@mc-clustering/mc-datagen/config": ["packages/mc-datagen/src/config.ts"],
+    }
   }
 }
