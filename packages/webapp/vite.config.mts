@@ -5,7 +5,7 @@ import tsconfigPaths from 'vite-tsconfig-paths'
 
 export default defineConfig(() => ({
   root: import.meta.dirname,
-  base: './',
+  base: process.env.BASE,
   cacheDir: '../../node_modules/.vite/packages/webapp',
   server: {
     port: 4200,

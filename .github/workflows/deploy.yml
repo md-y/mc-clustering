@@ -45,6 +45,8 @@ jobs:
 
       - name: Build webapp
         run: bunx nx run webapp:build
+        env:
+          BASE: '/mc-clustering/'
 
       - name: Setup Pages
         uses: actions/configure-pages@v4
