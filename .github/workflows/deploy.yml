@@ -30,6 +30,9 @@ jobs:
       - name: Install dependencies
         run: bun install
 
+      - name: Install Graphviz
+        run: sudo apt-get install -y graphviz libgraphviz-dev pkg-config
+
       - name: Setup Python
         uses: actions/setup-python@v5
         with:
