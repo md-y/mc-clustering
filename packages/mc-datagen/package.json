@@ -11,5 +11,8 @@
     },
     "./package.json": "./package.json"
   },
-  "dependencies": {}
+  "dependencies": {},
+  "scripts": {
+    "generate": "bun src/generate.ts"
+  }
 }
